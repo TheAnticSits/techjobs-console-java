@@ -1,7 +1,12 @@
 package org.launchcode.techjobs.console;
 
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -11,7 +16,7 @@ public class TechJobs {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -60,8 +65,12 @@ public class TechJobs {
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
 
+
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    //TODO trying to see if this is where to implement findByValue
+                    printJobs(JobData.findByValue(searchTerm));
+
+
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -103,7 +112,7 @@ public class TechJobs {
                 validChoice = true;
             }
 
-        } while(!validChoice);
+        } while (!validChoice);
 
         return choiceKeys[choiceIdx];
     }
@@ -111,6 +120,31 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println("printJobs is not implemented yet");
-    }
+        //iterate over ArrayList of jobs - each job is a HashMap itself
+        if(someJobs.isEmpty()){
+            System.out.println("Nothing Found, Sorry!");
+        }
+
+        for (HashMap<String, String> row : someJobs) {
+
+
+            System.out.println("*****");
+
+                // create a nested loop to loop over each HashMap
+                for (Map.Entry<String, String> jobcolumn : row.entrySet()) {
+
+
+                    System.out.println(jobcolumn.getKey() + (": ") + jobcolumn.getValue());
+
+                }
+                System.out.println(("*****"));
+
+
+            }
+
+            // If a new field is added to the job records, this approach will print out the new field without any updates to printJobs
+
+
+        }
+
 }
